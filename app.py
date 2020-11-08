@@ -12,7 +12,7 @@ cv=pickle.load(open('tranform.pkl','rb'))
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('home.html')
 
 @app.route('/predict',methods=['POST'])
 def predict():
@@ -23,11 +23,8 @@ def predict():
 		message = request.form['message']
 		data = [message]
 		vect = cv.transform(data).toarray()
-		prediction = np.array([[nbclf.predict(vect)]])
-    if prediction == "spam":
-        return render_template('index.html', prediction_text = "Your SMS is Spam!")
-    else:
-        return render_template('index.html', prediction_text= "Your SMS is Ham!")
+		prediction = nbclf.predict(vect)
+		return render_template('result.html', prediction=prediction)
       
 if __name__ == "__main__":
     app.run(debug=True)
