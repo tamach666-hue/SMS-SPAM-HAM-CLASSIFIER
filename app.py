@@ -1,12 +1,16 @@
+from flask import Flask,render_template,url_for,request
+import pandas as pd 
 import numpy as np
 import pickle
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.externals import joblib
+import pickle
 
 app = Flask(__name__)
-model = pickle.load(open("model.pkl", "rb"))
-transformer = pickle.load(open("tfr.pkl", "rb"))
-#pred = model.predict(vec)
-#print('Your SMS Type is:', type(pred), pred)
+filename = 'sms_model.pkl'
+nbclf = pickle.load(open(filename, 'rb'))
+cv=pickle.load(open('tranform.pkl','rb'))
 
 @app.route('/')
 def home():
@@ -17,10 +21,12 @@ def predict():
     '''
     For rendering results on HTML GUI
     '''
-    SMS = float(request.form['smsInput'])
-    vec = transformer.transform(SMS)
-    prediction = model.predict(vec)
-    if prediction == 'spam':
+    if request.method == 'POST':
+		message = request.form['message']
+		data = [message]
+		vect = cv.transform(data).toarray()
+		prediction = nbclf.predict(vect)
+    if prediction == "spam":
         return render_template('index.html', prediction_text = "Your SMS is Spam!")
     else:
         return render_template('index.html', prediction_text= "Your SMS is Ham!")
