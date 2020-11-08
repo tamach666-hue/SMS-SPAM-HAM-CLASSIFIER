@@ -20,9 +20,9 @@
 
 
 		
-	{% if prediction == "Spam"%}
+	{% if prediction == 1%}
 	<h2 style="color:red;">It is a Spam</h2>
-	{% elif prediction == "Ham"%}
+	{% elif prediction == 0%}
 	<h2 style="color:blue;">It is a Ham</h2>
 	{% endif %}
 
