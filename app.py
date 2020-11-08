@@ -4,8 +4,6 @@ import numpy as np
 import pickle
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.externals import joblib
-import pickle
 
 app = Flask(__name__)
 filename = 'sms_model.pkl'
@@ -25,7 +23,7 @@ def predict():
 		message = request.form['message']
 		data = [message]
 		vect = cv.transform(data).toarray()
-		prediction = nbclf.predict(vect)
+		prediction = np.array([[nbclf.predict(vect)]])
     if prediction == "spam":
         return render_template('index.html', prediction_text = "Your SMS is Spam!")
     else:
