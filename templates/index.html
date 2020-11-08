@@ -17,7 +17,7 @@
 
      <!-- Main Input For Receiving Query to our ML -->
     <form action="{{ url_for('predict')}}"method="post">
-    	Enter SMS: <input type="text" name="smsInput" placeholder=" " required="required" /><br>
+    	Enter SMS: <input type="text" name="message" placeholder=" " required="required" /><br>
         <button type="Submit" class="btn btn-primary btn-block btn-large">SMS Outcome</button>
     </form>
 
