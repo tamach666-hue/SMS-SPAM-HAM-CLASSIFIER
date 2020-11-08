@@ -23,8 +23,8 @@ def predict():
 		message = request.form['message']
 		data = [message]
 		vect = cv.transform(data).toarray()
-		prediction = nbclf.predict(vect)
-		return render_template('result.html', prediction=prediction)
+		sms_prediction = nbclf.predict(vect)
+		return render_template('result.html', prediction=sms_prediction)
       
 if __name__ == "__main__":
     app.run(debug=True)
